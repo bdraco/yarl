@@ -1,3 +1,4 @@
+import logging
 import math
 import sys
 import warnings
@@ -37,6 +38,8 @@ from ._quoting import _Quoter, _Unquoter
 DEFAULT_PORTS = {"http": 80, "https": 443, "ws": 80, "wss": 443}
 USES_AUTHORITY = frozenset(uses_netloc)
 USES_RELATIVE = frozenset(uses_relative)
+
+_LOGGER = logging.getLogger(__name__)
 
 sentinel = object()
 
@@ -1246,6 +1249,7 @@ class URL:
 
         """
         # N.B. doesn't cleanup query/fragment
+        _LOGGER.warning("Called with_query with args: %s, kwargs: %s", args, kwargs)
 
         new_query = self._get_str_query(*args, **kwargs) or ""
         return URL(self._val._replace(query=new_query), encoded=True)
