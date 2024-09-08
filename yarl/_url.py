@@ -1,3 +1,4 @@
+import logging
 import math
 import sys
 import warnings
@@ -37,6 +38,7 @@ from ._quoting import _Quoter, _Unquoter
 DEFAULT_PORTS = {"http": 80, "https": 443, "ws": 80, "wss": 443}
 USES_AUTHORITY = frozenset(uses_netloc)
 USES_RELATIVE = frozenset(uses_relative)
+_LOGGER = logging.getLogger(__name__)
 
 sentinel = object()
 
@@ -1144,6 +1146,7 @@ class URL:
     def _query_seq_pairs(
         cls, quoter: Callable[[str], str], pairs: Iterable[Tuple[str, QueryVariable]]
     ) -> Iterator[str]:
+        _LOGGER.warning("Sequence of pairs: %s", pairs)
         for key, val in pairs:
             if isinstance(val, (list, tuple)):
                 for v in val:
